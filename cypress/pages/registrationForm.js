@@ -5,11 +5,11 @@ class RegistrationForm {
     }
 
     field(name) {
-        return this.form().find('input[name="${name}"]');
+        return this.form().find(`input[name="${name}"]`);
     }
 
     genderCheckbox(label) {
-        return this.form().find('input[name="id_gender"]').paren().contains(label);
+        return this.form().find('input[name="id_gender"]').parent().contains(label);
     }
 
     requiredCheckbox() {
@@ -20,12 +20,6 @@ class RegistrationForm {
         return this.form().find('button[type="submit"]')
     }
     
-    fieldError(name) {
-        return this.field(name)
-        .closest('.form-group')
-        .find('.help-block, .invalid-feedback')
-    }
-
     //Actions
     open() {
         cy.get('a[href*="controller=my-account"], a[href*="my-account"]')
@@ -53,7 +47,7 @@ class RegistrationForm {
         this.requiredCheckbox().check({force : true});
         return this;
     }
-
+    
     submit() {
         this.submitButton().click();
         return this;
@@ -66,6 +60,9 @@ class RegistrationForm {
     type(name, value) {
         if(value) {
             this.field(name).clear().type(value, { log: name !== 'password'});
+            if(name === 'password') {
+                this.field(name).trigger('input').trigger('keyup');
+            }
         } 
     }
 

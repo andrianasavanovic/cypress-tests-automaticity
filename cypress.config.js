@@ -5,6 +5,7 @@ module.exports = defineConfig({
     baseUrl: 'https://demo.prestashop.com',
     chromeWebSecurity: false,
     supportFile: false,
+    defaultCommandTimeout: 15000,
   },
 });
 
